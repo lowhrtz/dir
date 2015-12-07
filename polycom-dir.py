@@ -22,6 +22,12 @@ BASE_URL_DIRECTORY = BASE_URL_DIRECTORY.strip('/')
 
 
 def get_index():
+    """
+    Generates the contents for the main page.
+
+    :return: String containing the contents for the main page
+    """
+
     string_template = {'base_dir': BASE_URL_DIRECTORY}
     return '''\
 <head>
@@ -40,7 +46,14 @@ Password: &nbsp;<input id="pwd" type="password" name="pwd"><br /><br />
   </form>
 </body>'''.format(**string_template)
 
+
 def get_style():
+    """
+    Generates the CSS file contents.
+
+    :return: String containing the contents of the stylesheet
+    """
+
     return '''\
 body {
 text-align: center;
@@ -110,7 +123,16 @@ margin-bottom: 3px;
 margin-top: 3px;
 }'''
 
+
 def get_edit(exten, pwd):
+    """
+    Generates the contents for the edit page.
+
+    :param exten: Extension as a string
+    :param pwd: Voicemail password for the given extension
+    :return: String containing the contents of the edit page
+    """
+
     try:
         vm_config = open(VM_CONFIG, 'r')
     except IOError:
@@ -318,6 +340,14 @@ Available Entries
 
 
 def update_dir_file(entries_json_text, filename):
+    """
+    Updates the given directory file with the given json data.
+
+    :param entries_json_text: Json data from POST request by edit page
+    :param filename: Directory filename
+    :return: Status string to pass to start_response
+    """
+
     import json
 
     try:
@@ -361,6 +391,13 @@ def update_dir_file(entries_json_text, filename):
 
 
 def application(environ, start_response):
+    """
+    WSGI interface
+
+    :param environ: Pertinent environment variables
+    :param start_response: Function WSGI passes to let the script define headers and response codes
+    :return: List of strings to send to the browser
+    """
     status_OK = '200 OK'
     status_REDIRECT = '302 Found'
 
