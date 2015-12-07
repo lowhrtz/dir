@@ -7,24 +7,22 @@ BASE_URL_DIRECTORY = '/dir'
 # If the voicemail.conf file is in a non-standard location then change this to reflect it
 VM_CONFIG = '/etc/asterisk/voicemail.conf'
 
-# This flag will be different on different systems. The best way to find out is the sql query: select * from sip where keyword='account';
-#acct_flag = 25
-
 # The location of the directory where the Polycom directory files are kept
 CONTACTS_DIR = '/tftpboot/contacts'
 
-#MySQL settings
+# MySQL settings
 MYSQL_HOST = 'localhost'
 MYSQL_USER = 'someuser'
 MYSQL_PASS = 'somepass'
-MYSQL_DB = 'asterisk' # Change this if you created a MySQL/MariaDB Database under a different name.
+MYSQL_DB = 'asterisk'  # Change this if you created a MySQL/MariaDB Database under a different name.
 
-###############################################################################################################################
+########################################################################################################################
 
 BASE_URL_DIRECTORY = BASE_URL_DIRECTORY.strip('/')
 
+
 def get_index():
-    string_template = {'base_dir':BASE_URL_DIRECTORY}
+    string_template = {'base_dir': BASE_URL_DIRECTORY}
     return '''\
 <head>
   <title>Directory Editor</title>
@@ -216,7 +214,7 @@ $(document).ready(function(){
         entries_json:JSON.stringify(getDir())
       },
     function(data,status) {
-        alert("Sucessfully updated the directory file!");
+        alert("Successfully updated the directory file!");
     })
     .fail( function(xhr, textStatus, errorThrown) {
       alert("Error saving directory file: %(dir_fullpath)s\\nThis usually means the server doesn't have permissions to write/rewrite the file.");
@@ -245,7 +243,7 @@ $(document).ready(function(){
   });
 });
     </script>
-''' % string_template # It is easier to use the old style formatting rather than double all the braces in the string.
+''' % string_template  # It is easier to use the old style formatting rather than double all the braces in the string.
 
     string_template = {'base_dir':BASE_URL_DIRECTORY, 'error': error_to_print}
     html_string += '''\
@@ -265,8 +263,8 @@ Current/Edit Entries
     for item in root.findall('*/item'):
         fn = item.findtext('fn')
         ln = item.findtext('ln')
-        if fn == None: fn = ''
-        if ln == None: ln = ''
+        if fn is None: fn = ''
+        if ln is None: ln = ''
         ct = item.findtext('ct')
         full_name = fn + ' ' + ln
         current_name_list.append(full_name.strip())
@@ -290,13 +288,11 @@ Available Entries
 <div class="group" id="avail">
 '''
 
-    #db_cursor.execute("SELECT * FROM sip WHERE keyword='account' AND flags=" + str(acct_flag))
     db_cursor.execute("SELECT * FROM sip WHERE keyword='account'")
     for row in db_cursor.fetchall():
         row_id = row[0]
         account = row[2]
-        if row_id != account: continue # Typically if the row id and account values don't match then it is a trunk not an extension.
-        #cur2 = db.cursor()
+        if row_id != account: continue  # Typically if the row id and account values don't match then it is a trunk not an extension.
         db_cursor.execute("SELECT * FROM users WHERE extension='" + account + "'")
         user = db_cursor.fetchone()
         name = user[2]
@@ -319,6 +315,7 @@ Available Entries
     vm_config.close()
 
     return html_string
+
 
 def update_dir_file(entries_json_text, filename):
     import json
@@ -361,6 +358,7 @@ def update_dir_file(entries_json_text, filename):
     output_file.write('</directory>\n')
     output_file.close()
     return '201 Created'
+
 
 def application(environ, start_response):
     status_OK = '200 OK'
