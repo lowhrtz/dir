@@ -242,7 +242,7 @@ $(document).ready(function(){
     })
     .fail( function(xhr, textStatus, errorThrown) {
       alert("Error saving directory file: %(dir_fullpath)s\\n\
-      This usually means the server doesn't have permissions to write/rewrite the file.");
+This usually means the server doesn't have permissions to write/rewrite the file.");
     });
   });
 
