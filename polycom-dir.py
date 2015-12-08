@@ -270,7 +270,7 @@ $(document).ready(function(){
     </script>
 ''' % string_template  # It is easier to use the old style formatting rather than double all the braces in the string.
 
-    string_template = {'base_dir':BASE_URL_DIRECTORY, 'error': error_to_print}
+    string_template = {'base_dir': BASE_URL_DIRECTORY, 'error': error_to_print}
     html_string += '''\
     <link rel="stylesheet" type="text/css" href="/{base_dir}/style.css">
   </head>
@@ -423,10 +423,10 @@ def application(environ, start_response):
             html_string = get_edit(exten, pwd)
         else:
             status = status_REDIRECT
-            response_header = [('Location','/' + BASE_URL_DIRECTORY)]
+            response_header = [('Location', '/' + BASE_URL_DIRECTORY)]
     elif request_uri.endswith(BASE_URL_DIRECTORY + '/submit_dir'):
         raw_post = environ.get('wsgi.input', '')
-        post_input = parse_qs(raw_post.readline().decode(),True)
+        post_input = parse_qs(raw_post.readline().decode(), True)
         entries_json_text = post_input.get('entries_json', [''])[0]
         filename = post_input.get('filename', [''])[0]
         if request_method == 'POST' and filename != '':
@@ -438,7 +438,7 @@ def application(environ, start_response):
         html_string = get_index()
     else:
         status = status_REDIRECT
-        response_header = [('Location','/' + BASE_URL_DIRECTORY)]
+        response_header = [('Location', '/' + BASE_URL_DIRECTORY)]
 
     start_response(status, response_header)
     return [html_string]
