@@ -152,7 +152,8 @@ def get_edit(exten, pwd):
     if no_user or pwd != actual_pwd:
         string_template = {'base_dir': BASE_URL_DIRECTORY}
         return '''\
-<body style="background: tan;text-align: center;color: tan;"><span style="font-size: 35px;color: black;">Extension does not exist or password does not match.</span><br />
+<body style="background: tan;text-align: center;color: tan;">
+<span style="font-size: 35px;color: black;">Extension does not exist or password does not match.</span><br />
 <a href="/{base_dir}" style="font-size: 25px;color: black;">back to login page</a></body>'''.format(**string_template)
 
     import MySQLdb as mysql
@@ -173,7 +174,8 @@ def get_edit(exten, pwd):
     except IndexError:
         string_template = {'base_dir': BASE_URL_DIRECTORY}
         return '''\
-<body style="background: tan;text-align: center;color: tan;"><span style="font-size: 35px;color: black;">Extension is not associated with a phone.</span><br />
+<body style="background: tan;text-align: center;color: tan;">
+<span style="font-size: 35px;color: black;">Extension is not associated with a phone.</span><br />
 <a href="/{base_dir}" style="font-size: 25px;color: black;">back to login page</a></body>'''.format(**string_template)
 
     db_cursor.execute("SELECT * FROM endpointman_mac_list WHERE id='" + str(macid) + "'")
@@ -239,7 +241,8 @@ $(document).ready(function(){
         alert("Successfully updated the directory file!");
     })
     .fail( function(xhr, textStatus, errorThrown) {
-      alert("Error saving directory file: %(dir_fullpath)s\\nThis usually means the server doesn't have permissions to write/rewrite the file.");
+      alert("Error saving directory file: %(dir_fullpath)s\\n\
+      This usually means the server doesn't have permissions to write/rewrite the file.");
     });
   });
 
@@ -314,7 +317,7 @@ Available Entries
     for row in db_cursor.fetchall():
         row_id = row[0]
         account = row[2]
-        if row_id != account: continue  # Typically if the row id and account values don't match then it is a trunk not an extension.
+        if row_id != account: continue  # If the row id and account values don't match then it is likely not an extension.
         db_cursor.execute("SELECT * FROM users WHERE extension='" + account + "'")
         user = db_cursor.fetchone()
         name = user[2]
