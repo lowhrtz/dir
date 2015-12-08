@@ -1,7 +1,7 @@
 import os
 from urlparse import parse_qs
 
-# Change this if the WSGIScripAlias points to something other than "/dir"
+# Change this if the WSGIScriptAlias directive points to something other than "/dir"
 BASE_URL_DIRECTORY = '/dir'
 
 # If the voicemail.conf file is in a non-standard location then change this to reflect it
@@ -317,7 +317,8 @@ Available Entries
     for row in db_cursor.fetchall():
         row_id = row[0]
         account = row[2]
-        if row_id != account: continue  # If the row id and account values don't match then it is likely not an extension.
+        if row_id != account:
+            continue  # If the row id and account values don't match then it is likely not an extension.
         db_cursor.execute("SELECT * FROM users WHERE extension='" + account + "'")
         user = db_cursor.fetchone()
         name = user[2]
@@ -398,7 +399,7 @@ def application(environ, start_response):
     WSGI interface
 
     :param environ: Pertinent environment variables
-    :param start_response: Function WSGI passes to let the script define headers and response codes
+    :param start_response: Function WSGI passes to let the script define and send headers and response codes
     :return: List of strings to send to the browser
     """
     status_OK = '200 OK'
