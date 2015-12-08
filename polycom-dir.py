@@ -404,7 +404,7 @@ def application(environ, start_response):
     status_OK = '200 OK'
     status_REDIRECT = '302 Found'
 
-    response_header = [('Content-type','text/html')]
+    response_header = [('Content-type', 'text/html')]
 
     request_uri = environ.get('REQUEST_URI', '')
     request_method = environ.get('REQUEST_METHOD', '')
@@ -412,7 +412,7 @@ def application(environ, start_response):
     status = status_OK
     html_string = ''
     if request_uri.endswith(BASE_URL_DIRECTORY + '/style.css'):
-        response_header = [('Content-type','text/css')]
+        response_header = [('Content-type', 'text/css')]
         html_string = get_style()
     elif request_uri.endswith(BASE_URL_DIRECTORY + '/edit'):
         raw_post = environ.get('wsgi.input', '')
@@ -433,7 +433,7 @@ def application(environ, start_response):
             status = update_dir_file(entries_json_text, filename)
         else:
             status = status_REDIRECT
-            response_header = [('Location','/' + BASE_URL_DIRECTORY)]
+            response_header = [('Location', '/' + BASE_URL_DIRECTORY)]
     elif request_uri.endswith(BASE_URL_DIRECTORY):
         html_string = get_index()
     else:
